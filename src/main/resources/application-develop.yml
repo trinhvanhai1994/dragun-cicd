@@ -1,0 +1,96 @@
+spring:
+  main:
+    banner-mode: console
+  datasource:
+    hikari:
+      leakDetectionThreshold: 10000
+      #minimum-idle: 5
+      #idleTimeout: 30000
+      maximum-pool-size: 20
+      connectionTimeout: 3000
+      maxLifetime: 2000000
+      poolName: OdenktoolsJPAAuthServerHikariCP
+    driver-class-name: org.postgresql.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5432/access}
+    username: ${POSTGRESQL_USERNAME:postgres}
+    password: ${POSTGRESQL_PASSWORD:admin}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+      connection:
+        provider_class: org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL95Dialect
+        format_sql: true
+        use_sql_comments: true
+        temp:
+          use_jdbc_metadata_defaults: false
+    show-sql: false
+  jackson:
+    serialization:
+      indent-output: true
+      fail-on-empty-beans: false
+  devtools:
+    restart:
+      log-condition-evaluation-delta: false
+      enabled: true
+  sendgrid:
+    api-key: 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
+    proxy:
+      host:
+      port:
+  liquibase:
+    enabled: false
+
+# Logging Properties
+logging:
+  path: logs
+  file:
+    max-history: 30
+  level:
+    ROOT: INFO
+    com.odenktools.databoot: INFO
+    org.hibernate.SQL: error
+    org.hibernate.type.descriptor.sql.BasicBinder: error
+    org.springframework.web: warn
+    org.springframework.boot: warn
+# Resource Properties
+resources:
+  add-mappings: false
+# Application Properties
+application:
+  version: ${API_VERSION:1.0.0}
+  async:
+    core-pool-size: 10
+    max-pool-size: 50
+    queue-capacity: 10000
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /api-docs
+    enabled: true
+  packages-to-scan: jp.ensemble.apiserver
+
+mail:
+  base:
+    url: https://access.ominext.dev/
+  noreply:
+    address: no-reply@sb.co.jp
+
+jwt:
+  secret: access-key-private
+  expirationDateInMs: 0
+  refreshExpirationDateInMs: 9000000
+
+access:
+  account:
+    username: haitv@ominext
+    password: 123456
+

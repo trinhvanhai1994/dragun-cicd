@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: accessServer
+  profiles:
+    active: develop
+  cors:
+    allowed-origins: "*"
+    allowed-methods: "*"
+    allowed-headers: "*"
+    exposed-headers: "Authorization,Link,X-Total-Count"
+    allow-credentials: true
+server:
+  port: ${PORT:8081}
+  url: ${SERVER_URL:localhost:8081}
+  servlet:
+    session:
+      cookie:
+        name: JWT_SESSIONID
+  jetty:
+    acceptors: 4
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          filter:
+            CommonsRequestLoggingFilter: DEBUG
