@@ -8,12 +8,20 @@ jobs:
     docker:
       - image: cimg/openjdk:11.0.13
     steps:
+      - checkout
+      - setup_remote_docker
       - run:
           name: run build
           command: |
-            whoami
-            pwd
-            echo "build success"
+            chmod +x mvnw
+            sed -i "s/\r$//" mvnw
+            ./mvnw --version
+            ./mvnw package
+      - run:
+          name: build
+          command: |
+            docker build -t access-app:latest .
+            docker images
   deploy:
     executor: docker/docker
     steps:
@@ -22,7 +30,7 @@ jobs:
           command: |
             whoami
             pwd
-            echo "deploy succes"
+            "echo deploy succes"
 
 workflows:
   my-workflow:
@@ -31,7 +39,7 @@ workflows:
           filters:
             branches:
               only:
-                - dev
+                - develop
       - deploy:
           requires:
             - build-and-push
